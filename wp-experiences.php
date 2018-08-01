@@ -19,7 +19,7 @@ function experiences_create_post_type() {
       'public' => true,
       'has_archive' => true,
       'show_ui' => true,
-      'menu_icon' => 'dashicons-video-alt',
+      'menu_icon' => 'dashicons-palmtree',
       'query_var' => true,
       'capability_type' => 'post',
       'hierarchical' => true,
@@ -81,6 +81,42 @@ function experiences_save_postdata($post_id) {
 }
 add_action('save_post', 'experiences_save_postdata');
 
+// Add columns to the screen options of the admin index page.
+function experiences_columns_head($defaults) {
+  $defaults['featured_image'] = 'Featured Image';
+  $defaults['experience_size'] = 'Size';
+  $defaults['experience_link'] = 'Link';
+  return $defaults;
+}
+
+// Featured image HTML.
+function experiences_columns_content($column_name, $post_ID) {
+  if ($column_name == 'featured_image') {
+    $post_thumbnail_id = get_post_thumbnail_id($post_ID);
+    $post_thumbnail_img = wp_get_attachment_image_src($post_thumbnail_id, 'featured_preview');
+
+    echo '<img style="width: 150px;" src="' . $post_thumbnail_img[0] . '" />';
+  }
+
+  if ($column_name == 'experience_size') {
+    echo get_post_meta($post_ID, 'experiences_size', true);
+  }
+
+  if ($column_name == 'experience_link') {
+    $link = get_post_meta($post_ID, 'experiences_link', true);
+    $parts = explode('/', $link);
+    $last = end($parts);
+    
+    if (!isset($last) || empty($last) || $last == "\n") {
+      $sl = count($parts) - 2;
+      $last = $parts[count($parts) - 2];
+    }
+    
+    echo '<a href="'. $link .'">'. $last .'</a>';
+  }
+}
+add_filter('manage_experiences_posts_columns', 'experiences_columns_head', 10);
+add_action('manage_experiences_posts_custom_column', 'experiences_columns_content', 10, 2);
 
 //
 // Allow do_action for embedding in the theme.
