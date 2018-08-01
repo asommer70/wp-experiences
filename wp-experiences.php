@@ -66,7 +66,7 @@ function experiences_meta_box_html($post) {
     <option value="medium" <?php echo (isset($selected_size) && $selected_size == 'medium' ? 'selected' : ''); ?>>Medium</option>
     <option value="large" <?php echo (isset($selected_size) && $selected_size == 'large' ? 'selected' : 'j'); ?>>Large</option>
   </select>
-  <?php
+<?php
 }
 
 // Save the meta box entries.
@@ -80,3 +80,12 @@ function experiences_save_postdata($post_id) {
   }
 }
 add_action('save_post', 'experiences_save_postdata');
+
+
+//
+// Allow do_action for embedding in the theme.
+//
+function experiences_action() {
+  include(__DIR__ .'/template.php');
+}
+add_action( 'wp_experiences', 'experiences_action', 10, 1 );
