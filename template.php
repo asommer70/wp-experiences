@@ -1,5 +1,5 @@
 <?php
-  $experiences = get_posts(['numberofposts' => 200, 'post_type' => 'experiences', 'orderby' => 'menu_order', 'order' => 'ASC',]);
+  $experiences = get_posts(['numberposts' => -1, 'post_type' => 'experiences', 'orderby' => 'menu_order', 'order' => 'ASC',]);
 ?>
 
 <div class="row experiences">
