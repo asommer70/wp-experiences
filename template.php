@@ -1,5 +1,5 @@
 <?php
-  $experiences = query_posts(['numberofposts' => 200, 'post_type' => 'experiences', 'orderby' => 'menu_order', 'order' => 'ASC',]);
+  $experiences = get_posts(['numberofposts' => 200, 'post_type' => 'experiences', 'orderby' => 'menu_order', 'order' => 'ASC',]);
 ?>
 
 <div class="row experiences">
@@ -26,4 +26,3 @@
   </ul>
 </div>
 
-<?php wp_reset_postdata(); ?>
