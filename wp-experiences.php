@@ -83,6 +83,7 @@ add_action('save_post', 'experiences_save_postdata');
 
 // Add columns to the screen options of the admin index page.
 function experiences_columns_head($defaults) {
+  $defaults['experience_order'] = 'Order';
   $defaults['featured_image'] = 'Featured Image';
   $defaults['experience_size'] = 'Size';
   $defaults['experience_link'] = 'Link';
@@ -91,6 +92,11 @@ function experiences_columns_head($defaults) {
 
 // Featured image HTML.
 function experiences_columns_content($column_name, $post_ID) {
+  if ($column_name == 'experience_order') {
+    $post = get_post($post_ID);
+    echo $post->menu_order;
+  }
+  
   if ($column_name == 'featured_image') {
     $post_thumbnail_id = get_post_thumbnail_id($post_ID);
     $post_thumbnail_img = wp_get_attachment_image_src($post_thumbnail_id, 'featured_preview');
